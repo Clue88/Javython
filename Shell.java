@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Shell {
     public static void main(String[] args) {
@@ -7,7 +8,16 @@ public class Shell {
         while (true) {
             System.out.print(">>> ");
             String input = scanner.nextLine();
-            System.out.println(Lexer.analyze(input));
+            if (input.equals("quit()")) break;
+            
+            Lexer lexer = new Lexer(input);
+            TokenError te = lexer.makeTokens();
+            Token[] tokens = te.getTokens();
+            Error error = te.getError();
+            
+            if (error != null) System.out.println(error);
+            else System.out.println(Arrays.toString(tokens));
         }
+        scanner.close();
     }
 }
